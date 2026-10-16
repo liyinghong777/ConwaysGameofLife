@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cell Automaton</title>
+    <link rel="stylesheet" href="./main.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <div id="tools">
+        <button id="next">NEXT</button>
+        <button id="testCase" style="background-color: greenyellow">TEST_CASE</button>
+        <button id="autoplay">AUTO PLAY</button>
+        <button id="clear" style="background-color: greenyellow">CLEAR</button>
+      </div>
+      <div id="statisticalData" style="height: 36px">
+        <div></div>
+        <h6 style="text-align: center; margin: 0">CELL AUTOMATON</h6>
+        <div id="roundCount"></div>
+      </div>
+      <div id="container">
+        <canvas id="app"></canvas>
+      </div>
+    </div>
+    <script type="module" src="index.js"></script>
+  </body>
+</html>
