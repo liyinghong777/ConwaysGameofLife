@@ -11,30 +11,12 @@ body {
   align-items: center;
 }
 
-#tools {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 6px;
-}
-
-#statisticalData {
+.main {
   width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  gap: 8px;
-}
-
-#statisticalData h1 {
-  text-align: center;
-}
-
-#statisticalData #roundCount {
-  text-align: left;
   display: flex;
-  align-items: center;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 #container {
@@ -49,14 +31,13 @@ canvas {
   display: block;
 }
 
-.main {
-  width: 100%;
+#tools {
   display: flex;
-  gap: 16px;
-  align-items: flex-start;
+  flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
+  gap: 6px;
 }
-
 #tools h6 {
   margin: 0;
 }
