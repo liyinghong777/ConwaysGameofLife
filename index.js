@@ -11,6 +11,26 @@ const CELL_WIDTH = LOGIC_WIDTH / BORDER_COLS;
 const CELL_HEIGHT = LOGIC_HEIGHT / BORDER_ROWS;
 const BACKGROUND = 'lightyellow';
 const STATE_COLOR = ['#202020', '#ff5050', '#50ff50', '#5050ff'];
+/**
+ * row represent DEAD cell
+ * column represent ALIVE cell
+ * so in DEAD situation, only DEAD cell === 5 and ALIVE cell === 3, it would stay alive.
+ * in ALIVE situation, ALIVE cell === 2 or 3. it would stay alive.
+ * this is a states table.
+ */
+const GoL = [
+    // 0 DEAD
+    {
+        '53': 1,
+        default: 0,
+    },
+    // 1 ALIVE
+    {
+        '62': 1,
+        '53': 1,
+        default: 0,
+    },
+];
 function createBoard() {
     return Array.from({
         length: BORDER_COLS * BORDER_ROWS,
@@ -45,29 +65,30 @@ function countNeighbors(board, neighborCounts, index) {
         const nextCol = col + dx;
         // 越界
         if (nextRow < 0 || nextRow >= BORDER_ROWS || nextCol < 0 || nextCol >= BORDER_COLS) {
+            neighborCounts[0]++; // 不这样的话，棋盘外面的格子既没有被算成 DEAD，也没有被算成 ALIVE。
             continue;
         }
         const neighborIndex = nextRow * BORDER_COLS + nextCol;
         const state = board[neighborIndex];
-        if (state !== undefined) {
-            neighborCounts[state]++;
-        }
+        neighborCounts[state]++;
     }
 }
 function computeNextBoard(stateCount, current, next) {
-    const DEAD = 0;
-    const ALIVE = 1;
     for (let index = 0; index < current.length; index++) {
         const neighborCounts = Array(stateCount).fill(0);
         countNeighbors(current, neighborCounts, index);
-        switch (current[index]) {
-            case DEAD:
-                next[index] = neighborCounts[ALIVE] === 3 ? ALIVE : DEAD;
-                break;
-            case ALIVE:
-                next[index] = neighborCounts[ALIVE] === 2 || neighborCounts[ALIVE] === 3 ? ALIVE : DEAD;
-                break;
-        }
+        const state = current[index];
+        const transition = GoL[state];
+        const key = neighborCounts.join('');
+        next[index] = transition[key] ?? transition.default;
+        // switch (current[index]) {
+        //   case DEAD:
+        //     next[index] = neighborCounts[ALIVE] === 3 ? ALIVE : DEAD
+        //     break
+        //   case ALIVE:
+        //     next[index] = neighborCounts[ALIVE] === 2 || neighborCounts[ALIVE] === 3 ? ALIVE : DEAD
+        //     break
+        // }
     }
 }
 // -----------------------------
@@ -167,8 +188,7 @@ function updateCell(point) {
 }
 app.addEventListener('click', (event) => {
     const point = screenToLogic(event);
-    console.log(point);
-    // updateCell(point)
+    updateCell(point);
 });
 // -----------------------------
 // Utility
@@ -182,6 +202,12 @@ function getElement(selector) {
 }
 function getIndex(row, col) {
     return row * BORDER_COLS + col;
+}
+function getRC(index) {
+    return {
+        row: Math.floor(index / BORDER_COLS),
+        col: index % BORDER_COLS,
+    };
 }
 // -----------------------------
 // Generation
