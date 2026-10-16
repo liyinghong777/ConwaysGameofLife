@@ -15,5 +15,13 @@ npm i
 ./node_modules/typescript/bin/tsc --watch
 ```
 
+<!-- ## In progress -->
+
+## Planned
+
+- [ ] Add the manual dragging function
+- [ ] Add life patterns
+
 ## License
+
 MIT
