@@ -13,3 +13,6 @@ https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
 ```bash
 npm i
 ./node_modules/typescript/bin/tsc --watch
+
+## License
+MIT
