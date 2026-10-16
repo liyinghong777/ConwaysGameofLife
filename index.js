@@ -5,12 +5,43 @@ const app = document.getElementById('app');
 // -----------------------------
 // Board
 // -----------------------------
-const BORDER_ROWS = 32;
+const BORDER_ROWS = 64;
 const BORDER_COLS = BORDER_ROWS;
 const CELL_WIDTH = LOGIC_WIDTH / BORDER_COLS;
 const CELL_HEIGHT = LOGIC_HEIGHT / BORDER_ROWS;
 const BACKGROUND = 'lightyellow';
-const STATE_COLOR = ['#202020', '#ff5050', '#50ff50', '#5050ff'];
+const STATE_COLORS = ['#202020', '#ff5050', '#50ff50', '#5050ff'];
+const BB = [
+    // 0 - Dead
+    {
+        '026': 1,
+        '125': 1,
+        '224': 1,
+        '323': 1,
+        '521': 1,
+        '620': 1,
+        default: 0,
+    },
+    // 1 - Live
+    {
+        default: 2,
+    },
+    // 2 - Dying
+    {
+        default: 0,
+    },
+];
+const Seeds = [
+    // 0
+    {
+        '62': 1,
+        default: 0,
+    },
+    // 1
+    {
+        default: 0,
+    },
+];
 /**
  * row represent DEAD cell
  * column represent ALIVE cell
@@ -61,24 +92,19 @@ function countNeighbors(board, neighborCounts, index) {
         [1, 1],
     ];
     for (const [dy, dx] of directions) {
-        const nextRow = row + dy;
-        const nextCol = col + dx;
-        // 越界
-        if (nextRow < 0 || nextRow >= BORDER_ROWS || nextCol < 0 || nextCol >= BORDER_COLS) {
-            neighborCounts[0]++; // 不这样的话，棋盘外面的格子既没有被算成 DEAD，也没有被算成 ALIVE。
-            continue;
-        }
+        const nextRow = (row + dy + BORDER_ROWS) % BORDER_ROWS;
+        const nextCol = (col + dx + BORDER_COLS) % BORDER_COLS;
         const neighborIndex = nextRow * BORDER_COLS + nextCol;
         const state = board[neighborIndex];
         neighborCounts[state]++;
     }
 }
-function computeNextBoard(stateCount, current, next) {
+function computeNextBoard(automaton, current, next) {
     for (let index = 0; index < current.length; index++) {
-        const neighborCounts = Array(stateCount).fill(0);
+        const neighborCounts = Array(automaton.length).fill(0);
         countNeighbors(current, neighborCounts, index);
         const state = current[index];
-        const transition = GoL[state];
+        const transition = automaton[state];
         const key = neighborCounts.join('');
         next[index] = transition[key] ?? transition.default;
         // switch (current[index]) {
@@ -155,7 +181,7 @@ function drawCell(index) {
     if (state === undefined) {
         return;
     }
-    ctx.fillStyle = STATE_COLOR[state];
+    ctx.fillStyle = STATE_COLORS[state];
     ctx.fillRect(x, y, CELL_WIDTH, CELL_HEIGHT);
     drawGrid(index);
 }
@@ -221,7 +247,7 @@ function updateGenerationDisplay() {
 // Next Generation
 // -----------------------------
 function updateNextBoard() {
-    computeNextBoard(2, currentBoard, nextBoard);
+    computeNextBoard(BB, currentBoard, nextBoard);
     [currentBoard, nextBoard] = [nextBoard, currentBoard];
     generation++;
     updateGenerationDisplay();
@@ -293,5 +319,27 @@ testCaseButton.addEventListener('click', () => {
     currentBoard[getIndex(2, 0)] = ALIVE;
     drawScene();
 });
+// -----------------------------
+// Test random Case
+// -----------------------------
+function randomTestCase() {
+    currentBoard = createBoard();
+    const centerRow = Math.floor(BORDER_ROWS / 2);
+    const centerCol = Math.floor(BORDER_COLS / 2);
+    const size = 20;
+    for (let row = -size; row <= size; row++) {
+        for (let col = -size; col <= size; col++) {
+            if (Math.random() < 0.25) {
+                const r = centerRow + row;
+                const c = centerCol + col;
+                if (r >= 0 && r < BORDER_ROWS && c >= 0 && c < BORDER_COLS) {
+                    currentBoard[getIndex(r, c)] = 1;
+                }
+            }
+        }
+    }
+    drawScene();
+}
 export {};
+// randomTestCase()
 //# sourceMappingURL=index.js.map
