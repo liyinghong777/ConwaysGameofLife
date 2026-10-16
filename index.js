@@ -231,7 +231,7 @@ autoPlayButton.addEventListener('click', () => {
         animationFrameId = requestAnimationFrame(autoUpdate);
         return;
     }
-    autoPlayButton.innerHTML = 'AUTO_PLAY';
+    autoPlayButton.innerHTML = 'AUTO';
     if (animationFrameId !== null) {
         cancelAnimationFrame(animationFrameId);
         animationFrameId = null;
@@ -243,7 +243,7 @@ autoPlayButton.addEventListener('click', () => {
 const clearButton = getElement('#clear');
 clearButton.addEventListener('click', () => {
     isPlaying = false;
-    autoPlayButton.innerHTML = 'AUTO_PLAY';
+    autoPlayButton.innerHTML = 'AUTO';
     if (animationFrameId !== null) {
         cancelAnimationFrame(animationFrameId);
         animationFrameId = null;

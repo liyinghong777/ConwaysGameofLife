@@ -13,11 +13,9 @@ body {
 
 #tools {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  height: 60px;
-  width: 100%;
+  align-items: flex-start;
   gap: 6px;
 }
 
@@ -49,4 +47,21 @@ body {
 
 canvas {
   display: block;
+}
+
+.main {
+  width: 100%;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+#tools h6 {
+  margin: 0;
+}
+#tools section {
+  border: 1px solid;
+  border-radius: 4px;
+  padding: 4px;
 }

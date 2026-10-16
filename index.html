@@ -8,19 +8,28 @@
   </head>
   <body>
     <div class="layout">
-      <div id="tools">
-        <button id="next">NEXT</button>
-        <button id="testCase" style="background-color: greenyellow">TEST_CASE</button>
-        <button id="autoplay">AUTO PLAY</button>
-        <button id="clear" style="background-color: greenyellow">CLEAR</button>
-      </div>
-      <div id="statisticalData" style="height: 36px">
+      <!-- <div id="statisticalData" style="height: 36px">
         <div></div>
-        <h6 style="text-align: center; margin: 0">CELL AUTOMATON</h6>
+        <h4 style="text-align: center; margin: auto 0">CELL AUTOMATON</h4>
         <div id="generationDisplay"></div>
-      </div>
-      <div id="container">
-        <canvas id="app"></canvas>
+      </div> -->
+      <div class="main">
+        <div>
+          <h4 style="text-align: center">CELL AUTOMATON</h4>
+          <div id="container">
+            <canvas id="app"></canvas>
+          </div>
+        </div>
+        <div id="tools">
+          <h4 id="generationDisplay">&nbsp;</h4>
+          <section>
+            <h6>PLAY</h6>
+            <button id="next">NEXT</button>
+            <button id="autoplay">AUTO</button>
+            <button id="clear" style="background-color: greenyellow">CLEAR</button>
+          </section>
+          <button id="testCase" style="background-color: greenyellow">TEST_CASE</button>
+        </div>
       </div>
     </div>
     <script type="module" src="index.js"></script>

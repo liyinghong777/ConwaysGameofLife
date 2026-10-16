@@ -335,7 +335,7 @@ autoPlayButton.addEventListener('click', () => {
     return
   }
 
-  autoPlayButton.innerHTML = 'AUTO_PLAY'
+  autoPlayButton.innerHTML = 'AUTO'
 
   if (animationFrameId !== null) {
     cancelAnimationFrame(animationFrameId)
@@ -353,7 +353,7 @@ const clearButton = getElement<HTMLButtonElement>('#clear')
 clearButton.addEventListener('click', () => {
   isPlaying = false
 
-  autoPlayButton.innerHTML = 'AUTO_PLAY'
+  autoPlayButton.innerHTML = 'AUTO'
 
   if (animationFrameId !== null) {
     cancelAnimationFrame(animationFrameId)
